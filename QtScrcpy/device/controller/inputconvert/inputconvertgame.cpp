@@ -176,11 +176,15 @@ void InputConvertGame::sendTouchEvent(int id, QPointF pos, AndroidMotioneventAct
     QPoint absolutePos = calcFrameAbsolutePos(pos).toPoint();
     static QPoint lastAbsolutePos = absolutePos;
     if (AMOTION_EVENT_ACTION_MOVE == action && lastAbsolutePos == absolutePos) {
+        delete controlMsg;
         return;
     }
     lastAbsolutePos = absolutePos;
 
-    controlMsg->setInjectTouchMsgData(static_cast<quint64>(id), action, static_cast<AndroidMotioneventButtons>(0), QRect(absolutePos, m_frameSize), 1.0f);
+    controlMsg->setInjectTouchMsgData(static_cast<quint64>(id), action,
+                                      static_cast<AndroidMotioneventButtons>(0),
+                                      QRect(absolutePos, m_frameSize),
+                                      AMOTION_EVENT_ACTION_DOWN == action? 1.0f : 0.0f);
     sendControlMsg(controlMsg);
 }
 
@@ -395,8 +399,9 @@ bool InputConvertGame::processMouseMove(const QMouseEvent *from)
     }
 
     if (!m_ctrlMouseMove.lastPos.isNull() && m_processMouseMove) {
-        QPointF distance = from->localPos() - m_ctrlMouseMove.lastPos;
-        distance /= m_keyMap.getMouseMoveMap().data.mouseMove.speedRatio;
+        QPointF distance_raw{from->localPos() - m_ctrlMouseMove.lastPos};
+        QPointF speedRatio  {m_keyMap.getMouseMoveMap().data.mouseMove.speedRatio};
+        QPointF distance    {distance_raw.x() / speedRatio.x(), distance_raw.y() / speedRatio.y()};
 
         mouseMoveStartTouch(from);
         startMouseMoveTimer();

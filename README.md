@@ -124,7 +124,9 @@ you can [build it by yourself](##Build)(just ubuntu test)
 
 
 ## Run
-
+### Simple Mode
+Connect to your Android device on your computer, then run the program and click `USB connect` or `WiFi connect`
+### Not Simple Mode
 Connect to your Android device on your computer, then run the program and click the button below to connect to the Android device.
 
 ![run](screenshot/run.png)
@@ -194,7 +196,7 @@ Note: it is not necessary to keep you Android device connected via USB after you
  | -------------------------------------- |:----------------------------- |:-----------------------------
  | Switch fullscreen mode                 | `Ctrl`+`f`                    | `Cmd`+`f`
  | Resize window to 1:1 (pixel-perfect)   | `Ctrl`+`g`                    | `Cmd`+`g`
- | Resize window to remove black borders  | `Ctrl`+`x` \| _Double-click¹_ | `Cmd`+`x`  \| _Double-click¹_
+ | Resize window to remove black borders  | `Ctrl`+`w` \| _Double-click¹_ | `Cmd`+`w`  \| _Double-click¹_
  | Click on `HOME`                        | `Ctrl`+`h` \| _Middle-click_  | `Ctrl`+`h` \| _Middle-click_
  | Click on `BACK`                        | `Ctrl`+`b` \| _Right-click²_  | `Cmd`+`b`  \| _Right-click²_
  | Click on `APP_SWITCH`                  | `Ctrl`+`s`                    | `Cmd`+`s`
@@ -206,13 +208,16 @@ Note: it is not necessary to keep you Android device connected via USB after you
  | Turn device screen off (keep mirroring)| `Ctrl`+`o`                    | `Cmd`+`o`
  | Expand notification panel              | `Ctrl`+`n`                    | `Cmd`+`n`
  | Collapse notification panel            | `Ctrl`+`Shift`+`n`            | `Cmd`+`Shift`+`n`
- | Copy device clipboard to computer      | `Ctrl`+`c`                    | `Cmd`+`c`
- | Paste computer clipboard to device     | `Ctrl`+`v`                    | `Cmd`+`v`
- | Copy computer clipboard to device      | `Ctrl`+`Shift`+`v`            | `Cmd`+`Shift`+`v`
+ | Copy to clipboard³                     | `Ctrl`+`c`                    | `Cmd`+`c`
+ | Cut to clipboard³                      | `Ctrl`+`x`                    | `Cmd`+`x`
+ | Synchronize clipboards and paste³      | `Ctrl`+`v`                    | `Cmd`+`v`
+ | Inject computer clipboard text         | `Ctrl`+`Shift`+`v`            | `Cmd`+`Shift`+`v`
 
 _¹Double-click on black borders to remove them._  
 
 _²Right-click turns the screen on if it was off, presses BACK otherwise._
+
+_³Only on Android >= 7._
 
 ## TODO
 [TODO](docs/TODO.md)
@@ -241,7 +246,7 @@ There are several reasons listed as below according to importance (high to low).
 All the dependencies are provided and it is easy to compile.
 
 ### PC client
-1. Set up the Qt development environment on the target platform (Qt == 5.15.0, vs == 2017 (mingw not supported))
+1. Set up the Qt development environment on the target platform (Qt == 5.15.2, vs == 2019 (mingw not supported))
 2. Clone the project
 3. Open the project root directory all.pro with QtCreator
 4. Compile and run
@@ -257,7 +262,7 @@ All the dependencies are provided and it is easy to compile.
 ## Licence
 Since it is based on scrcpy, respect its Licence
 
-    Copyright (C) 2020 Barry
+    Copyright (C) 2025 Rankun
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

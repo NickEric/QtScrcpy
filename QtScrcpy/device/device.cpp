@@ -33,7 +33,7 @@ Device::Device(DeviceParams params, QObject *parent) : QObject(parent), m_params
         m_decoder = new Decoder(m_vb, this);
         m_fileHandler = new FileHandler(this);
         m_controller = new Controller(params.gameScript, this);
-        m_videoForm = new VideoForm(Config::getInstance().getFramelessWindow(), Config::getInstance().getSkin());
+        m_videoForm = new VideoForm(params.framelessWindow, Config::getInstance().getSkin());
         m_videoForm->setDevice(this);
     }
 
@@ -151,6 +151,8 @@ void Device::initSignals()
         connect(this, &Device::postPower, m_controller, &Controller::onPostPower);
         connect(this, &Device::postVolumeUp, m_controller, &Controller::onPostVolumeUp);
         connect(this, &Device::postVolumeDown, m_controller, &Controller::onPostVolumeDown);
+        connect(this, &Device::postCopy, m_controller, &Controller::onCopy);
+        connect(this, &Device::postCut, m_controller, &Controller::onCut);
         connect(this, &Device::setScreenPowerMode, m_controller, &Controller::onSetScreenPowerMode);
         connect(this, &Device::expandNotificationPanel, m_controller, &Controller::onExpandNotificationPanel);
         connect(this, &Device::collapseNotificationPanel, m_controller, &Controller::onCollapseNotificationPanel);
@@ -159,7 +161,6 @@ void Device::initSignals()
         connect(this, &Device::keyEvent, m_controller, &Controller::onKeyEvent);
 
         connect(this, &Device::postBackOrScreenOn, m_controller, &Controller::onPostBackOrScreenOn);
-        connect(this, &Device::requestDeviceClipboard, m_controller, &Controller::onRequestDeviceClipboard);
         connect(this, &Device::setDeviceClipboard, m_controller, &Controller::onSetDeviceClipboard);
         connect(this, &Device::clipboardPaste, m_controller, &Controller::onClipboardPaste);
         connect(this, &Device::postTextInput, m_controller, &Controller::onPostTextInput);
@@ -381,7 +382,7 @@ bool Device::saveFrame(const AVFrame *frame)
 
     // save
     QString absFilePath;
-    QString fileDir(Config::getInstance().getRecordPath());
+    QString fileDir(m_params.recordPath);
     if (fileDir.isEmpty()) {
         qWarning() << "please select record save path!!!";
         return false;
